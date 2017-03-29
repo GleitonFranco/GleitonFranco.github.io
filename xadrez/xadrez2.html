@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Xadrez</title>
+  <style type="text/css">
+    .select  {
+      border: 5px dashed black;
+    }
+
+  </style>
+  <!--<script type="text/javascript" src="../jquery-1.11.2.min.js" ></script>-->
+  <script type="text/javascript" src="../underscore-min.js" ></script>
+</head>
+<body >
+  <div id="container">
+    <svg id="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0px" y="0px" width="400" height="400" ondragover="Ctr.allowDrop(event)">
+    </svg>
+    <p>Capturas:</p>
+    <svg id="svgcap" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="500" height="150" style="background-color: #678C99" onclick="Ctr.clickBox(event)">
+    </svg>
+  </div>
+  <script type="text/javascript" src="jogo.js"></script>
+</body>
+</html>
