@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=0.8">
+  <title>Soroban</title>
+  <style type="text/css">
+    /*h1 { text-align: center; }*/
+    button, select { height: 5em; }
+  </style>
+  <!-- <script type="text/javascript" src="operacao.js" ></script> -->
+</head>
+<body>
+<h1>SOROBAN</h1>
+<div>
+    <button id='somabt'>SOMA</button>
+    <button id='subtracaobt'>SUBTRAÇÃO</button>
+    <select onchange="mudarAlgarismos(this.value)">
+      <option value="1">1 algarismo</option>
+      <option value="2">2 algarismos</option>
+      <option value="3">3 algarismos</option>
+      <option value="4">4 algarismos</option>
+      <option value="5">5 algarismos</option>
+      <option value="6">6 algarismos</option>
+      <option value="7">7 algarismos</option>
+      <option value="8">8 algarismos</option>
+      <option selected="selected" value="9">9 algarismos</option>
+    </select>
+</div>
+<h3 id='score'>Somas:0 Subtrações:0 Total:0</h3>
+<h1></h1>
+<div>
+    <button id='num01bt'>PARCELA 1</button>
+    <button id='num02bt'>PARCELA 2</button>
+    <button id='resultadobt'>RESULTADO</button>
+</div>
+<div>
+  <h1 id='nomeparcela'>Parcela</h1>
+  <h1 id='valrparcela'>0</h1>
+</div>
+
+  <script type="text/javascript">
+
+    totalsomas = 0;
+    totalsubtracoes = 0;
+    var operacaoFactory = function(opChar, numParcelas, numDigitos1, numDigitos2) {
+      var parcelas = [];
+      parcelas[0] = parseInt(Math.pow(10, numDigitos1-1) + Math.random()*(Math.pow(10, numDigitos1)-Math.pow(10, numDigitos1-1)-1));
+      for (var i = 1; i < numParcelas; i++) {
+        parcelas[i] = parseInt(Math.pow(10, numDigitos2-1) + Math.random()*(Math.pow(10, numDigitos2)-Math.pow(10, numDigitos2-1)-1));
+      }
+      if (opChar == '-') {
+        parcelas = parcelas.sort().reverse();
+      }
+      var resultado = parcelas.reduce( function (prev, curr, index, array) {
+        if (opChar == '+') {
+          return prev + curr;
+        }
+        if (opChar == '-') {
+          return prev - curr;
+        }
+      });
+      
+      return {
+        operacao: opChar,
+        parcelas: parcelas,
+        resultado: resultado
+      };
+
+    }
+
+    var formataInt = function(n) {
+      var ns = n.toString();
+      if (ns.length < 3) {
+        return ns;
+      }
+      var nform = '';
+      while (ns.length>0) {
+        nform = '.' + ns.slice(-3) + nform;
+
+        ns = ns.substring(0, ns.length - 3);
+      }
+      nform = nform.slice(1);
+      return nform;
+    };
+
+    var numDigitos1 = 9;
+    var numDigitos2 = 9;
+    var numMaxDigitos = 12;
+
+    var mudarAlgarismos = function(valor) {
+        numDigitos1 = parseInt(valor);
+        numDigitos2 = parseInt(valor);
+        console.log("*"+valor);
+    }
+
+    // 
+    // ********************    DEFINICAO DA OPERACAO E O SINAL   ******************************************* #42393B #30261C
+    var op1={
+      operacao: '*',
+      parcelas: [1,2],
+      resultado: 3
+    };
+
+
+    //document.getElementById('canvas'); #42393B #30261C
+    //onclick="op1 = operacaoFactory('+',2,9,9)"
+
+    var mudarScore = function(n1,n2) {
+      var totais = 'Somas: '+n1+'   Subtrações: '+n2+'   Total: '+(n1+n2);
+      var nome = document.getElementById('score');
+      nome.textContent = totais;
+    }
+
+    var btn = document.getElementById('somabt');
+    btn.addEventListener('click',function() {
+      op = operacaoFactory('+',2,numDigitos1,numDigitos2);
+      mudarScore(++totalsomas,totalsubtracoes);
+    });
+
+    var btn2 = document.getElementById('subtracaobt');
+    btn2.addEventListener('click',function() {
+      op = operacaoFactory('-',2,numDigitos1,numDigitos2);
+      mudarScore(totalsomas,++totalsubtracoes);
+    });
+
+    var btn3 = document.getElementById('num01bt');
+    btn3.addEventListener('click',function() {
+      var nome = document.getElementById('nomeparcela');
+      nome.textContent = '1ª Parcela:';
+      var valor = document.getElementById('valrparcela');
+      valor.textContent = formataInt(op.parcelas[0]);
+    });
+
+    var btn4 = document.getElementById('num02bt');
+    btn4.addEventListener('click',function() {
+      var nome = document.getElementById('nomeparcela');
+      nome.textContent = '2ª Parcela:';
+      var valor = document.getElementById('valrparcela');
+      valor.textContent = op.operacao+formataInt(op.parcelas[1]);
+    });
+
+    var btn4 = document.getElementById('resultadobt');
+    btn4.addEventListener('click',function() {
+      var nome = document.getElementById('nomeparcela');
+      nome.textContent = 'Resultado:';
+      var valor = document.getElementById('valrparcela');
+      valor.textContent = formataInt(op.resultado);
+    });
+
+
+
+  </script>
+</body>
+</html>
