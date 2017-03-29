@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Soroban 2</title>
+  <style type="text/css">
+    /*h1 { text-align: center; }*/
+    canvas { border: 1px solid black; }
+  </style>
+  <!-- <script type="text/javascript" src="jquery-2.1.4.min.js" ></script> -->
+  <script type="text/javascript" src="soroban.js" ></script>
+  <script type="text/javascript" src="operacao.js" ></script>
+</head>
+<body >
+
+  <script type="text/javascript">
+    var largura = 400;
+    var altura = 80;
+    var numDigitos1 = 9;
+    var numDigitos2 = 9;
+    var numMaxDigitos = 12;
+    // 
+    // ********************    DEFINICAO DA OPERACAO E O SINAL   ******************************************* #42393B #30261C
+    var op1 = operacaoFactory('+',2,numDigitos1,numDigitos2);
+
+    //document.getElementById('canvas'); #42393B #30261C
+    var div1 = document.createElement('div');
+    var canvas1 = document.createElement('canvas');
+    canvas1.setAttribute('width',largura);
+    canvas1.setAttribute('height',altura);
+    div1.appendChild(canvas1);
+    document.body.appendChild(div1);
+    var soroban1 = sorobanFactory(0,0,canvas1,numMaxDigitos,op1.parcelas[0]);
+    soroban1.desenhaFrame();
+    soroban1.desenhaNumero();
+    var div11 = document.createElement('div');
+    var label1 = document.createElement('p');
+    label1.innerText = formataInt(op1.parcelas[0]);
+    document.body.appendChild(div11);
+    div11.appendChild(label1);
+
+    var operacao = document.createElement('h1');
+    operacao.textContent = op1.operacao;
+    document.body.appendChild(operacao);
+
+    var canvas2 = document.createElement('canvas');
+    canvas2.setAttribute('width',largura);
+    canvas2.setAttribute('height',altura);
+    document.body.appendChild(canvas2);
+    var soroban2 = sorobanFactory(0,0,canvas2,numMaxDigitos,op1.parcelas[1]);
+    soroban2.desenhaFrame();
+    soroban2.desenhaNumero();
+    var div22 = document.createElement('div');
+    var label2 = document.createElement('p');
+    label2.innerText = formataInt(op1.parcelas[1]);
+    document.body.appendChild(div22);
+    div22.appendChild(label2);
+
+    console.log(formataInt(op1.parcelas[0]));
+    console.log(op1.operacao);
+    console.log(formataInt(op1.parcelas[1]));
+    console.log('=');
+
+
+    var igual = document.createElement('h1');
+    igual.textContent = '=';
+    document.body.appendChild(igual);
+
+    var canvas3 = document.createElement('canvas');
+    canvas3.setAttribute('width',largura);
+    canvas3.setAttribute('height',altura);
+    document.body.appendChild(canvas3);
+    var soroban3 = sorobanFactory(0,0,canvas3,numMaxDigitos,op1.resultado);
+    soroban3.desenhaFrame();
+
+    var btn = document.createElement('button');
+    btn.textContent = 'Exibir Resultado';
+    btn.addEventListener('click',function() { soroban3.desenhaNumero();console.log(formataInt(op1.resultado)); });
+    document.body.appendChild(btn);
+
+  </script>
+</body>
+</html>
